@@ -1,28 +1,42 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-class Database {
+class HomeworkDatabase {
   constructor() {
     this.client = null;
     this.db = null;
     this.isConnected = false;
-    this.retryCount = 0;
-    this.maxRetries = 3;
+    this.connecting = false;
   }
 
   async connect() {
+    if (this.isConnected) {
+      console.log('✅ 已连接到功课数据库');
+      return this.db;
+    }
+    
+    if (this.connecting) {
+      console.log('🔄 正在连接功课数据库，请稍候...');
+      return new Promise(resolve => {
+        const checkConnection = () => {
+          if (this.isConnected) {
+            resolve(this.db);
+          } else {
+            setTimeout(checkConnection, 100);
+          }
+        };
+        checkConnection();
+      });
+    }
+    
+    this.connecting = true;
+    
     try {
-      if (this.isConnected) {
-        console.log('✅ 已连接到数据库');
-        return this.db;
-      }
+      // 功课系统使用 homework_db
+      const uri = process.env.MONGODB_URI || 'mongodb+srv://nanmo009:Wwx731217@cluster-fosheng.r3b5crc.mongodb.net/?retryWrites=true&w=majority&appName=cluster-fosheng';
+      const dbName = process.env.DATABASE_NAME || 'homework_db'; // 功课数据库
       
-      // 从环境变量获取连接字符串，或使用默认值
-      const uri = process.env.MONGODB_URI || 'mongodb+srv://nanmo009:Wwx731217@cluster-fosheng.r3b5crc.mongodb.net/?appName=cluster-fosheng';
-      const dbName = process.env.DATABASE_NAME || 'donation_system';
+      console.log(`🔗 正在连接到功课数据库: ${dbName}`);
       
-      console.log(`🔗 正在连接到MongoDB: ${dbName}`);
-      
-      // 创建MongoDB客户端
       this.client = new MongoClient(uri, {
         serverApi: {
           version: ServerApiVersion.v1,
@@ -30,33 +44,23 @@ class Database {
           deprecationErrors: true,
         },
         connectTimeoutMS: 10000,
-        socketTimeoutMS: 45000,
+        socketTimeoutMS: 30000,
       });
       
-      // 连接数据库
       await this.client.connect();
-      
       this.db = this.client.db(dbName);
       this.isConnected = true;
+      this.connecting = false;
       
-      // 测试连接
       await this.db.command({ ping: 1 });
       
-      console.log('✅ MongoDB连接成功');
+      console.log('✅ 功课数据库连接成功');
       console.log(`📁 数据库: ${dbName}`);
       
       return this.db;
     } catch (error) {
-      console.error('❌ MongoDB连接失败:', error.message);
-      
-      // 重试逻辑
-      if (this.retryCount < this.maxRetries) {
-        this.retryCount++;
-        console.log(`🔄 重试连接 (${this.retryCount}/${this.maxRetries})...`);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        return this.connect();
-      }
-      
+      this.connecting = false;
+      console.error('❌ 功课数据库连接失败:', error.message);
       throw error;
     }
   }
@@ -66,38 +70,43 @@ class Database {
       if (this.client) {
         await this.client.close();
         this.isConnected = false;
-        console.log('✅ MongoDB连接已关闭');
+        console.log('✅ 功课数据库连接已关闭');
       }
     } catch (error) {
-      console.error('❌ 关闭MongoDB连接失败:', error.message);
+      console.error('❌ 关闭功课数据库连接失败:', error.message);
     }
   }
 
   getCollection(name) {
     if (!this.db) {
-      throw new Error('数据库未连接，请先调用connect()方法');
+      throw new Error('功课数据库未连接，请先调用connect()方法');
     }
     return this.db.collection(name);
   }
 
-  donations() {
-    return this.getCollection('donations');
+  // 功课记录集合
+  homeworkRecords() {
+    return this.getCollection('homework_records');
+  }
+
+  // 功课日志集合
+  homeworkLogs() {
+    return this.getCollection('homework_logs');
   }
 }
 
-// 创建单例实例
-const database = new Database();
+const homeworkDatabase = new HomeworkDatabase();
 
-// 自动重连机制
+// 自动重连
 setInterval(async () => {
-  if (!database.isConnected) {
+  if (!homeworkDatabase.isConnected && !homeworkDatabase.connecting) {
     try {
-      console.log('🔄 尝试自动重新连接数据库...');
-      await database.connect();
+      console.log('🔄 尝试自动重新连接功课数据库...');
+      await homeworkDatabase.connect();
     } catch (error) {
       console.log('自动重连失败，稍后重试...');
     }
   }
-}, 30000); // 每30秒检查一次
+}, 60000);
 
-module.exports = database;
+module.exports = homeworkDatabase;
