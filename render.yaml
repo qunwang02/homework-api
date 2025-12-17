@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: donation-collection-system
+    name: homework-collection-system
     env: node
     buildCommand: |
       echo "正在构建应用..."
