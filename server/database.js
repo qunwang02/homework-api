@@ -64,16 +64,7 @@ class HomeworkDatabase {
       throw error;
     }
   }
- // 功课记录集合
-  homeworkRecords() {
-    return this.db.collection('homework_records');
-  }
-  
-  // 功课日志
-  homeworkLogs() {
-    return this.db.collection('homework_logs');
-  }
-  
+
   // 初始化功课集合
   async initHomeworkCollections() {
     const collections = await this.db.listCollections().toArray();
@@ -89,7 +80,7 @@ class HomeworkDatabase {
       console.log('✅ 创建homework_logs集合');
     }
   }
-}
+
   async disconnect() {
     try {
       if (this.client) {
