@@ -4,24 +4,24 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const database = require('./database'); // 立即导入
+const database = require('./database');
 
 const app = express();
 
 // 基础中间件
-	app.use(
-	  helmet({
-		contentSecurityPolicy: {
-		  directives: {
-			defaultSrc: ["'self'"],
-			scriptSrc: ["'self'", "'unsafe-inline'"], // 允许内联脚本
-			 scriptSrcAttr: ["'unsafe-inline'"], // ⭐ 新增：允许onclick等内联事件处理器
-			styleSrc: ["'self'", "'unsafe-inline'"],
-			imgSrc: ["'self'", "data:", "https:"],
-		  },
-		},
-	  })
-	);
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrcAttr: ["'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+      },
+    },
+  })
+);
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -38,42 +38,61 @@ if (process.env.NODE_ENV !== 'production') {
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: { success: false, error: '请求过于频繁，请稍后再试' }, // 保持JSON格式
+  message: { success: false, error: '请求过于频繁，请稍后再试' },
   standardHeaders: true,
   legacyHeaders: false,
-  // 🔐 关键修复配置：
-  validate: { trustProxy: false }, // 告诉限流器我们已自行处理代理信任问题
+  validate: { trustProxy: false },
   keyGenerator: (req, res) => {
-    // 从X-Forwarded-For头部安全地提取客户端IP
     const forwarded = req.headers['x-forwarded-for'];
     const clientIp = forwarded ? forwarded.split(',')[0].trim() : req.ip;
-    console.log(`[限流] 客户端IP: ${clientIp}`); // 可选：日志记录
     return clientIp;
   }
 });
 
-// ✅ 正确的顺序：先加载API路由
-const routes = require('./routes');
-app.use('/api', routes); // 所有 `/api` 开头的请求都由 `routes.js` 处理
-console.log('✅ API路由已加载');
+// 调试：记录所有请求路径
+app.use((req, res, next) => {
+  console.log(`📥 请求: ${req.method} ${req.originalUrl}`);
+  next();
+});
 
-// ✅ 然后，再提供静态文件（如HTML、CSS、JS）
+// 加载API路由
+try {
+  const routes = require('./routes');
+  app.use('/api', routes);
+  console.log('✅ API路由已加载');
+} catch (error) {
+  console.error('❌ 加载API路由失败:', error);
+}
+
+// 静态文件服务
 app.use(express.static(path.join(__dirname, '../public')));
 
-// ✅ 主页和管理页面路由（这些不是API，应放在静态文件服务之后或之前，但需确保路径不冲突）
+// 主页和管理页面路由
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+
 app.get('/manage', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/admin.html'));
 });
 
+// 添加一个简单的API测试路由（作为后备）
+app.get('/api/backup-test', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: '这是备用测试路由',
+    path: req.path 
+  });
+});
+
 // 404处理
 app.use((req, res) => {
+  console.log(`❌ 404: 路径 ${req.path} 不存在`);
   res.status(404).json({ 
     success: false, 
     error: '请求的资源不存在',
-    path: req.path
+    path: req.path,
+    method: req.method
   });
 });
 
@@ -93,6 +112,10 @@ app.listen(PORT, async () => {
   console.log(`📡 访问地址: http://localhost:${PORT}`);
   console.log(`🔧 环境: ${process.env.NODE_ENV || 'development'}`);
   console.log(`📊 管理页面: http://localhost:${PORT}/manage`);
+  
+  // 测试API端点
+  console.log(`🔍 API测试端点: http://localhost:${PORT}/api/health`);
+  console.log(`🔍 API测试端点: http://localhost:${PORT}/api/test`);
   
   // 延迟连接数据库
   setTimeout(async () => {
