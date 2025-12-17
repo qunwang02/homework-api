@@ -64,7 +64,32 @@ class HomeworkDatabase {
       throw error;
     }
   }
-
+ // 功课记录集合
+  homeworkRecords() {
+    return this.db.collection('homework_records');
+  }
+  
+  // 功课日志
+  homeworkLogs() {
+    return this.db.collection('homework_logs');
+  }
+  
+  // 初始化功课集合
+  async initHomeworkCollections() {
+    const collections = await this.db.listCollections().toArray();
+    const collectionNames = collections.map(c => c.name);
+    
+    if (!collectionNames.includes('homework_records')) {
+      await this.db.createCollection('homework_records');
+      console.log('✅ 创建homework_records集合');
+    }
+    
+    if (!collectionNames.includes('homework_logs')) {
+      await this.db.createCollection('homework_logs');
+      console.log('✅ 创建homework_logs集合');
+    }
+  }
+}
   async disconnect() {
     try {
       if (this.client) {
