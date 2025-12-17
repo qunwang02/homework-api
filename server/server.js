@@ -51,37 +51,21 @@ const limiter = rateLimit({
   }
 });
 
-// 静态文件服务
+// ✅ 正确的顺序：先加载API路由
+const routes = require('./routes');
+app.use('/api', routes); // 所有 `/api` 开头的请求都由 `routes.js` 处理
+console.log('✅ API路由已加载');
+
+// ✅ 然后，再提供静态文件（如HTML、CSS、JS）
 app.use(express.static(path.join(__dirname, '../public')));
 
-// 健康检查端点
-app.get('api/health', (req, res) => {
-  res.json({ 
-    status: 'healthy',
-    service: 'donation-collection-system',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    nodeVersion: process.version,
-    environment: process.env.NODE_ENV || 'development'
-  });
-});
-
-// API测试端点
-
-// 主页路由
+// ✅ 主页和管理页面路由（这些不是API，应放在静态文件服务之后或之前，但需确保路径不冲突）
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
-
-// 管理页面路由
 app.get('/manage', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/admin.html'));
 });
-
-// 立即加载路由，避免延迟
-const routes = require('./routes');
-app.use('/api', routes); // 注意这里使用/api前缀
-console.log('✅ 路由已加载');
 
 // 404处理
 app.use((req, res) => {
