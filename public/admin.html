@@ -11,12 +11,130 @@
         .header { background: linear-gradient(90deg, #2c3e50, #4a6491); color: white; padding: 25px; text-align: center; }
         .header h1 { font-size: 32px; margin-bottom: 10px; }
         .content { padding: 30px; }
-        .controls { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
-        input, select, button { padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px; }
+        
+        /* 合并的控制面板 */
+        .combined-controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+        
+        /* 紧凑的表单组 */
+        .form-group-compact {
+            margin-bottom: 0;
+        }
+        
+        .form-group-compact label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group-compact input,
+        .form-group-compact select,
+        .form-group-compact button {
+            padding: 8px 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px;
+            width: 100%;
+        }
+        
+        /* 按钮组 */
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+        
+        .button-group button {
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 13px;
+        }
+        
+        /* 快速日期按钮组 */
+        .quick-date-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+        
+        .quick-date-group button {
+            padding: 6px 10px;
+            font-size: 12px;
+            flex: 1;
+            min-width: 60px;
+        }
+        
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+        
+        .stat-card h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .stat-card .label {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        .stat-card .date-range {
+            font-size: 11px;
+            color: #95a5a6;
+            margin-top: 3px;
+        }
+        
+        /* 视图模式按钮组 */
+        .view-mode {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .view-mode button {
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+        
+        .view-mode .active {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        /* 其他样式保持不变 */
         button { cursor: pointer; transition: all 0.3s; border: none; }
-        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
         .btn-primary { background: #3498db; color: white; }
         .btn-success { background: #2ecc71; color: white; }
         .btn-warning { background: #f39c12; color: white; }
@@ -24,47 +142,59 @@
         .btn-info { background: #9b59b6; color: white; }
         .btn-secondary { background: #95a5a6; color: white; }
         .btn-purple { background: #8e44ad; color: white; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .stat-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-left: 5px solid #3498db; }
-        .stat-card h3 { color: #2c3e50; margin-bottom: 10px; font-size: 16px; }
-        .stat-card .value { font-size: 28px; font-weight: bold; color: #3498db; }
-        .stat-card .label { font-size: 14px; color: #7f8c8d; }
-        .stat-card .date-range { font-size: 12px; color: #95a5a6; margin-top: 5px; }
-        .alert { padding: 15px; border-radius: 8px; margin: 15px 0; display: none; }
+        
+        .alert { padding: 12px; border-radius: 8px; margin: 10px 0; display: none; }
         .alert-success { background: #d4edda; color: #155724; }
         .alert-error { background: #f8d7da; color: #721c24; }
         .alert-info { background: #d1ecf1; color: #0c5460; }
-        .loading { display: none; text-align: center; padding: 20px; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; margin: 0 auto 10px; }
+        
+        .loading { display: none; text-align: center; padding: 15px; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; margin: 0 auto 10px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 6px; text-align: center; }
         .data-table th { background: #2c3e50; color: white; font-weight: 600; }
         .data-table tr:nth-child(even) { background: #f8f9fa; }
         .data-table tr:hover { background: #e3f2fd; }
-        .action-buttons button { margin: 2px; padding: 5px 10px; font-size: 12px; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 5% auto; padding: 30px; border-radius: 10px; width: 80%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h2 { color: #2c3e50; }
-        .close { font-size: 28px; cursor: pointer; color: #aaa; }
-        .close:hover { color: #000; }
-        .pagination { display: flex; justify-content: center; margin-top: 20px; gap: 5px; }
-        .pagination button { padding: 8px 12px; }
+        
+        .action-buttons button { margin: 2px; padding: 4px 8px; font-size: 11px; }
+        
+        .pagination { display: flex; justify-content: center; margin-top: 15px; gap: 5px; }
+        .pagination button { padding: 6px 10px; font-size: 12px; }
         .active-page { background: #3498db; color: white; }
-        .view-mode { margin-bottom: 10px; }
-        .view-mode button { margin-right: 10px; }
-        .view-mode .active { background: #2c3e50; }
-        .export-options { margin-top: 20px; }
-        .export-options button { margin-right: 10px; }
+        
         .nav-links { text-align: center; margin: 20px 0; }
         .nav-links a { color: #4CAF50; text-decoration: none; font-weight: bold; padding: 10px 20px; border: 2px solid #4CAF50; border-radius: 5px; margin: 0 10px; }
         .nav-links a:hover { background: #4CAF50; color: white; }
-        .date-range-controls { background: #e8f4f8; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .date-range-controls h3 { margin-bottom: 10px; color: #2c3e50; }
-        .date-inputs { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
-        .quick-dates { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-        .quick-dates button { padding: 8px 12px; font-size: 13px; }
+        
+        .export-options { margin-top: 15px; }
+        .export-options button { margin-right: 8px; padding: 8px 12px; font-size: 13px; }
+        
+        /* 模态框样式保持不变 */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 5% auto; padding: 25px; border-radius: 10px; width: 80%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .modal-header h2 { color: #2c3e50; font-size: 20px; }
+        .close { font-size: 24px; cursor: pointer; color: #aaa; }
+        .close:hover { color: #000; }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .combined-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-date-group button {
+                min-width: 45px;
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -80,107 +210,67 @@
         </div>
         
         <div class="content">
-            <!-- 日期范围控制 -->
-            <div class="date-range-controls">
-                <h3>📅 统计日期范围</h3>
-                <div class="date-inputs">
-                    <div class="form-group">
-                        <label>开始日期</label>
-                        <input type="date" id="startDate">
-                    </div>
-                    <div class="form-group">
-                        <label>结束日期</label>
-                        <input type="date" id="endDate">
-                    </div>
-                    <div class="form-group" style="display: flex; align-items: flex-end;">
-                        <button onclick="loadStatsByDateRange()" class="btn-success">🔍 按日期统计</button>
-                        <button onclick="resetDateRange()" class="btn-secondary">🔄 重置日期</button>
-                    </div>
-                </div>
-                <div class="quick-dates">
-                    <button onclick="setDateRange('today')" class="btn-info">今日</button>
-                    <button onclick="setDateRange('yesterday')" class="btn-info">昨日</button>
-                    <button onclick="setDateRange('week')" class="btn-info">本周</button>
-                    <button onclick="setDateRange('lastWeek')" class="btn-info">上周</button>
-                    <button onclick="setDateRange('month')" class="btn-info">本月</button>
-                    <button onclick="setDateRange('lastMonth')" class="btn-info">上月</button>
-                    <button onclick="setDateRange('year')" class="btn-info">今年</button>
-                    <button onclick="setDateRange('all')" class="btn-info">全部</button>
-                </div>
-                <div id="dateRangeText" style="margin-top: 10px; font-style: italic; color: #666;"></div>
-            </div>
-            
             <!-- 统计卡片 -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>📈 总记录数</h3>
                     <div class="value" id="totalRecords">0</div>
                     <div class="label">条功课记录</div>
-                    <div class="date-range" id="totalRecordsRange"></div>
+                    <div class="date-range" id="totalRecordsRange">本周数据</div>
                 </div>
                 <div class="stat-card">
                     <h3>👥 参与人数</h3>
                     <div class="value" id="totalPeople">0</div>
                     <div class="label">人</div>
-                    <div class="date-range" id="totalPeopleRange"></div>
+                    <div class="date-range" id="totalPeopleRange">本周数据</div>
                 </div>
                 <div class="stat-card">
                     <h3>📚 经典总数</h3>
                     <div class="value" id="totalClassics">0</div>
                     <div class="label">遍</div>
-                    <div class="date-range" id="totalClassicsRange"></div>
+                    <div class="date-range" id="totalClassicsRange">本周数据</div>
                 </div>
                 <div class="stat-card">
                     <h3>📊 平均每日</h3>
                     <div class="value" id="avgDaily">0</div>
                     <div class="label">条记录/天</div>
-                    <div class="date-range" id="avgDailyRange"></div>
+                    <div class="date-range" id="avgDailyRange">本周数据</div>
                 </div>
             </div>
             
-            <!-- 详细统计 -->
-            <div class="stat-card" style="margin-bottom: 20px;">
-                <h3>📋 经典诵读详情</h3>
-                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px;">
-                    <div>
-                        <div style="font-weight: bold; color: #3498db;">金刚经</div>
-                        <div id="diamondCount" style="font-size: 24px; font-weight: bold;">0</div>
-                        <div style="font-size: 12px; color: #7f8c8d;">遍</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: bold; color: #2ecc71;">阿弥陀经</div>
-                        <div id="amitabhaCount" style="font-size: 24px; font-weight: bold;">0</div>
-                        <div style="font-size: 12px; color: #7f8c8d;">遍</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: bold; color: #e74c3c;">普门品</div>
-                        <div id="guanyinCount" style="font-size: 24px; font-weight: bold;">0</div>
-                        <div style="font-size: 12px; color: #7f8c8d;">遍</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: bold; color: #f39c12;">普贤品</div>
-                        <div id="puxianCount" style="font-size: 24px; font-weight: bold;">0</div>
-                        <div style="font-size: 12px; color: #7f8c8d;">遍</div>
-                    </div>
-                    <div>
-                        <div style="font-weight: bold; color: #9b59b6;">地藏经</div>
-                        <div id="dizangCount" style="font-size: 24px; font-weight: bold;">0</div>
-                        <div style="font-size: 12px; color: #7f8c8d;">遍</div>
+            <!-- 合并的控制面板 -->
+            <div class="combined-controls">
+                <!-- 日期范围控制 -->
+                <div class="form-group-compact">
+                    <label>开始日期</label>
+                    <input type="date" id="startDate">
+                </div>
+                
+                <div class="form-group-compact">
+                    <label>结束日期</label>
+                    <input type="date" id="endDate">
+                </div>
+                
+                <div class="form-group-compact">
+                    <label>统计操作</label>
+                    <div class="button-group">
+                        <button onclick="loadStatsByDateRange()" class="btn-success">🔍 统计</button>
+                        <button onclick="resetDateRange()" class="btn-secondary">🔄 重置</button>
                     </div>
                 </div>
-            </div>
-            
-            <!-- 控制面板 -->
-            <div class="controls">
-                <div class="form-group">
+                
+                <!-- 搜索选项 -->
+                <div class="form-group-compact">
                     <label>搜索姓名</label>
-                    <input type="text" id="searchName" placeholder="输入姓名搜索...">
+                    <input type="text" id="searchName" placeholder="输入姓名...">
                 </div>
-                <div class="form-group">
+                
+                <div class="form-group-compact">
                     <label>搜索日期</label>
                     <input type="date" id="searchDate">
                 </div>
-                <div class="form-group">
+                
+                <div class="form-group-compact">
                     <label>排序方式</label>
                     <select id="sortBy">
                         <option value="createdAt_desc">最新提交</option>
@@ -189,7 +279,8 @@
                         <option value="totalClassics_desc">经典总数降序</option>
                     </select>
                 </div>
-                <div class="form-group">
+                
+                <div class="form-group-compact">
                     <label>每页显示</label>
                     <select id="pageSize">
                         <option value="10">10条</option>
@@ -198,9 +289,28 @@
                         <option value="100">100条</option>
                     </select>
                 </div>
-                <div class="form-group" style="display: flex; align-items: flex-end;">
-                    <button onclick="searchRecords()" class="btn-primary">🔍 搜索记录</button>
-                    <button onclick="resetSearch()" class="btn-secondary">🔄 重置搜索</button>
+                
+                <div class="form-group-compact">
+                    <label>搜索操作</label>
+                    <div class="button-group">
+                        <button onclick="searchRecords()" class="btn-primary">🔍 搜索</button>
+                        <button onclick="resetSearch()" class="btn-secondary">🔄 重置</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 快速日期按钮 -->
+            <div class="form-group-compact">
+                <label>快速日期选择</label>
+                <div class="quick-date-group">
+                    <button onclick="setDateRange('today')" class="btn-info">今日</button>
+                    <button onclick="setDateRange('yesterday')" class="btn-info">昨日</button>
+                    <button onclick="setDateRange('week')" class="btn-info active">本周</button>
+                    <button onclick="setDateRange('lastWeek')" class="btn-info">上周</button>
+                    <button onclick="setDateRange('month')" class="btn-info">本月</button>
+                    <button onclick="setDateRange('lastMonth')" class="btn-info">上月</button>
+                    <button onclick="setDateRange('year')" class="btn-info">今年</button>
+                    <button onclick="setDateRange('all')" class="btn-info">全部</button>
                 </div>
             </div>
             
@@ -260,7 +370,7 @@
             </div>
             
             <!-- 批量操作 -->
-            <div class="controls" style="margin-top: 20px;">
+            <div class="view-mode" style="margin-top: 15px;">
                 <button onclick="selectAll()" class="btn-secondary">全选</button>
                 <button onclick="deselectAll()" class="btn-secondary">取消全选</button>
                 <button onclick="deleteSelected()" class="btn-danger">删除选中</button>
@@ -270,7 +380,6 @@
             
             <!-- 导出选项 -->
             <div class="export-options">
-                <h3>导出数据</h3>
                 <button onclick="exportToCSV()" class="btn-primary">📄 导出为CSV</button>
                 <button onclick="exportToJSON()" class="btn-primary">📦 导出为JSON</button>
                 <button onclick="exportToExcel()" class="btn-primary">📊 导出为Excel</button>
@@ -323,8 +432,8 @@
         
         // 页面加载
         document.addEventListener('DOMContentLoaded', function() {
-            // 设置默认日期范围为本月
-            setDateRange('month');
+            // 设置默认日期范围为本周
+            setDateRange('week');
             
             // 加载统计信息
             loadStatsByDateRange();
@@ -351,6 +460,14 @@
             const today = new Date();
             const startDateInput = document.getElementById('startDate');
             const endDateInput = document.getElementById('endDate');
+            
+            // 移除所有快速日期按钮的active类
+            document.querySelectorAll('.quick-date-group button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 为当前选择的按钮添加active类
+            event.target.classList.add('active');
             
             let startDate, endDate;
             
@@ -407,30 +524,8 @@
             if (startDate) startDateInput.value = startDate;
             if (endDate) endDateInput.value = endDate;
             
-            // 更新日期范围文本
-            updateDateRangeText(startDate, endDate);
-        }
-        
-        // 更新日期范围显示文本
-        function updateDateRangeText(startDate, endDate) {
-            const dateRangeText = document.getElementById('dateRangeText');
-            if (!startDate && !endDate) {
-                dateRangeText.textContent = '统计范围: 全部数据';
-                dateRangeText.style.color = '#3498db';
-            } else if (startDate && endDate) {
-                if (startDate === endDate) {
-                    dateRangeText.textContent = `统计范围: ${startDate}`;
-                } else {
-                    dateRangeText.textContent = `统计范围: ${startDate} 至 ${endDate}`;
-                }
-                dateRangeText.style.color = '#2ecc71';
-            } else if (startDate) {
-                dateRangeText.textContent = `统计范围: ${startDate} 至今`;
-                dateRangeText.style.color = '#f39c12';
-            } else if (endDate) {
-                dateRangeText.textContent = `统计范围: 截至 ${endDate}`;
-                dateRangeText.style.color = '#e74c3c';
-            }
+            // 加载统计信息
+            loadStatsByDateRange();
         }
         
         // 重置日期范围
@@ -438,6 +533,12 @@
             document.getElementById('startDate').value = '';
             document.getElementById('endDate').value = '';
             currentDateRange = { startDate: null, endDate: null };
+            
+            // 移除快速日期按钮的active类
+            document.querySelectorAll('.quick-date-group button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
             loadStatsByDateRange();
         }
         
@@ -451,17 +552,12 @@
                 
                 currentDateRange = { startDate, endDate };
                 
-                // 更新日期范围文本
-                updateDateRangeText(startDate, endDate);
-                
                 // 构建查询参数
                 let url = `${API_BASE_URL}/stats`;
                 const params = new URLSearchParams();
                 if (startDate) params.append('startDate', startDate);
                 if (endDate) params.append('endDate', endDate);
                 if (params.toString()) url += '?' + params.toString();
-                
-                console.log('加载统计信息，URL:', url);
                 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -483,20 +579,21 @@
                     
                     document.getElementById('totalClassics').textContent = totalClassics;
                     
-                    // 更新经典详情
-                    document.getElementById('diamondCount').textContent = classics.totalDiamond || 0;
-                    document.getElementById('amitabhaCount').textContent = classics.totalAmitabha || 0;
-                    document.getElementById('guanyinCount').textContent = classics.totalGuanyin || 0;
-                    document.getElementById('puxianCount').textContent = classics.totalPuxian || 0;
-                    document.getElementById('dizangCount').textContent = classics.totalDizang || 0;
-                    
                     // 计算平均每日记录数
                     let avgDaily = 0;
+                    let dateRangeText = '本周数据';
+                    
                     if (startDate && endDate) {
                         const start = new Date(startDate);
                         const end = new Date(endDate);
                         const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
                         avgDaily = (stats.totalRecords / daysDiff).toFixed(1);
+                        
+                        if (startDate === endDate) {
+                            dateRangeText = startDate;
+                        } else {
+                            dateRangeText = `${startDate} 至 ${endDate}`;
+                        }
                     } else if (stats.totalRecords > 0) {
                         // 如果没有日期范围，使用最早和最晚记录日期
                         if (allRecords.length > 0) {
@@ -505,21 +602,17 @@
                             const end = new Date(dates[dates.length - 1]);
                             const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
                             avgDaily = (stats.totalRecords / daysDiff).toFixed(1);
+                            dateRangeText = '全部数据';
                         }
                     }
                     
                     document.getElementById('avgDaily').textContent = avgDaily;
                     
                     // 更新日期范围信息
-                    const rangeText = startDate || endDate ? 
-                        (startDate && endDate ? `${startDate} 至 ${endDate}` : 
-                         startDate ? `${startDate} 至今` : 
-                         `截至 ${endDate}`) : '全部数据';
-                    
-                    document.getElementById('totalRecordsRange').textContent = rangeText;
-                    document.getElementById('totalPeopleRange').textContent = rangeText;
-                    document.getElementById('totalClassicsRange').textContent = rangeText;
-                    document.getElementById('avgDailyRange').textContent = rangeText;
+                    document.getElementById('totalRecordsRange').textContent = dateRangeText;
+                    document.getElementById('totalPeopleRange').textContent = dateRangeText;
+                    document.getElementById('totalClassicsRange').textContent = dateRangeText;
+                    document.getElementById('avgDailyRange').textContent = dateRangeText;
                     
                     showMessage('统计信息已更新', 'success');
                 } else {
@@ -628,7 +721,7 @@
             if (records.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="15" style="text-align: center; padding: 50px;">
+                        <td colspan="15" style="text-align: center; padding: 30px;">
                             📭 暂无数据
                         </td>
                     </tr>
@@ -651,8 +744,8 @@
                                    data-id="${record._id}" 
                                    ${isSelected ? 'checked' : ''}
                                    onchange="toggleSelection('${record._id}')">
-                            <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 5px;">✏️</button>
-                            <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 5px;">🗑️</button>
+                            <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 4px 6px; font-size: 11px;">✏️</button>
+                            <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 4px 6px; font-size: 11px;">🗑️</button>
                         </td>
                         <td>${record.date}</td>
                         <td>${record.name}</td>
@@ -666,7 +759,7 @@
                         <td>${record.puxian || 0}</td>
                         <td>${record.dizang || 0}</td>
                         <td><strong>${totalClassics}</strong></td>
-                        <td>${record.remark || ''}</td>
+                        <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${record.remark || ''}</td>
                         <td>${formatDateTime(record.submitTime)}</td>
                     </tr>
                 `;
@@ -681,14 +774,14 @@
             
             if (records.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 50px; color: #7f8c8d;">
+                    <div style="text-align: center; padding: 30px; color: #7f8c8d;">
                         📭 暂无数据
                     </div>
                 `;
                 return;
             }
             
-            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">';
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">';
             
             records.forEach(record => {
                 const totalClassics = (record.diamond || 0) + (record.amitabha || 0) + (record.guanyin || 0) + 
@@ -702,18 +795,18 @@
                                    data-id="${record._id}" 
                                    onchange="toggleSelection('${record._id}')">
                         </div>
-                        <div style="color: #7f8c8d; margin-bottom: 10px;">${record.date}</div>
+                        <div style="color: #7f8c8d; margin-bottom: 8px; font-size: 12px;">${record.date}</div>
                         
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; font-size: 12px;">
                             <div>九字禅: <strong>${record.nineWord || 0}</strong></div>
                             <div>拜忏文: <strong>${record.buddhaWorship || 0}</strong></div>
                             <div>静禅: <strong>${record.quietZen || 0}分</strong></div>
                             <div>动禅: <strong>${record.activeZen || 0}分</strong></div>
                         </div>
                         
-                        <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                        <div style="background: #f8f9fa; padding: 8px; border-radius: 5px; margin-bottom: 12px; font-size: 12px;">
                             <div style="font-weight: bold; margin-bottom: 5px;">经典诵读:</div>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; font-size: 12px;">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
                                 <div>金刚经: ${record.diamond || 0}</div>
                                 <div>阿弥陀经: ${record.amitabha || 0}</div>
                                 <div>普门品: ${record.guanyin || 0}</div>
@@ -723,13 +816,13 @@
                             </div>
                         </div>
                         
-                        ${record.remark ? `<div style="font-style: italic; color: #666;">${record.remark}</div>` : ''}
+                        ${record.remark ? `<div style="font-style: italic; color: #666; font-size: 12px; margin-bottom: 8px;">${record.remark}</div>` : ''}
                         
-                        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 12px; color: #95a5a6;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 11px; color: #95a5a6;">
                             <div>${formatDateTime(record.submitTime)}</div>
                             <div>
-                                <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 3px 8px; font-size: 11px;">编辑</button>
-                                <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 3px 8px; font-size: 11px;">删除</button>
+                                <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 3px 6px; font-size: 10px;">编辑</button>
+                                <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 3px 6px; font-size: 10px;">删除</button>
                             </div>
                         </div>
                     </div>
@@ -854,11 +947,11 @@
                     
                     // 生成详细统计报告
                     let html = `
-                        <div style="margin-bottom: 20px;">
-                            <h3 style="color: #2c3e50;">统计日期范围: ${dateRangeText}</h3>
+                        <div style="margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; font-size: 16px;">统计日期范围: ${dateRangeText}</h3>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 15px;">
                             <div class="stat-card">
                                 <h3>📈 总体统计</h3>
                                 <p>总记录数: <strong>${stats.totalRecords}</strong></p>
@@ -879,14 +972,14 @@
                     // 个人统计排名
                     if (stats.nameStats && stats.nameStats.length > 0) {
                         html += `
-                            <h3>👥 个人统计排名 (前10名)</h3>
-                            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <h4 style="color: #2c3e50; margin-bottom: 10px;">👥 个人统计排名 (前10名)</h4>
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px;">
                                 <thead>
                                     <tr>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">排名</th>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">姓名</th>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">提交次数</th>
-                                        <th style="border: 1px solid #ddd; padding: 8px;">最后提交</th>
+                                        <th style="border: 1px solid #ddd; padding: 6px;">排名</th>
+                                        <th style="border: 1px solid #ddd; padding: 6px;">姓名</th>
+                                        <th style="border: 1px solid #ddd; padding: 6px;">提交次数</th>
+                                        <th style="border: 1px solid #ddd; padding: 6px;">最后提交</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -895,10 +988,10 @@
                         stats.nameStats.slice(0, 10).forEach((person, index) => {
                             html += `
                                 <tr>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${person._id}</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${person.count} 次</td>
-                                    <td style="border: 1px solid #ddd; padding: 8px;">${formatDateTime(person.lastSubmit)}</td>
+                                    <td style="border: 1px solid #ddd; padding: 6px;">${index + 1}</td>
+                                    <td style="border: 1px solid #ddd; padding: 6px;">${person._id}</td>
+                                    <td style="border: 1px solid #ddd; padding: 6px;">${person.count} 次</td>
+                                    <td style="border: 1px solid #ddd; padding: 6px;">${formatDateTime(person.lastSubmit)}</td>
                                 </tr>
                             `;
                         });
@@ -1039,50 +1132,50 @@
                 <form id="editRecordForm">
                     <input type="hidden" id="editId" value="${record._id}">
                     
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                        <div class="form-group">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <div class="form-group-compact">
                             <label>日期 *</label>
                             <input type="date" id="editDate" value="${record.date}" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-compact">
                             <label>姓名 *</label>
                             <input type="text" id="editName" value="${record.name}" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-compact">
                             <label>九字禅（声）</label>
                             <input type="number" id="editNineWord" value="${record.nineWord || 0}" min="0">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-compact">
                             <label>礼佛拜忏文（遍）</label>
                             <input type="number" id="editBuddhaWorship" value="${record.buddhaWorship || 0}" min="0">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-compact">
                             <label>静禅（分钟）</label>
                             <input type="number" id="editQuietZen" value="${record.quietZen || 0}" min="0">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-compact">
                             <label>动禅（分钟）</label>
                             <input type="number" id="editActiveZen" value="${record.activeZen || 0}" min="0">
                         </div>
                     </div>
                     
-                    <div style="margin: 15px 0;">
-                        <h4>经典诵读（遍）</h4>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-                            <div>金刚经: <input type="number" id="editDiamond" value="${record.diamond || 0}" min="0" max="10" style="width: 60px;"></div>
-                            <div>阿弥陀经: <input type="number" id="editAmitabha" value="${record.amitabha || 0}" min="0" max="10" style="width: 60px;"></div>
-                            <div>普门品: <input type="number" id="editGuanyin" value="${record.guanyin || 0}" min="0" max="10" style="width: 60px;"></div>
-                            <div>普贤品: <input type="number" id="editPuxian" value="${record.puxian || 0}" min="0" max="10" style="width: 60px;"></div>
-                            <div>地藏经: <input type="number" id="editDizang" value="${record.dizang || 0}" min="0" max="10" style="width: 60px;"></div>
+                    <div style="margin: 12px 0;">
+                        <h4 style="font-size: 14px; margin-bottom: 8px;">经典诵读（遍）</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 13px;">
+                            <div>金刚经: <input type="number" id="editDiamond" value="${record.diamond || 0}" min="0" max="10" style="width: 50px;"></div>
+                            <div>阿弥陀经: <input type="number" id="editAmitabha" value="${record.amitabha || 0}" min="0" max="10" style="width: 50px;"></div>
+                            <div>普门品: <input type="number" id="editGuanyin" value="${record.guanyin || 0}" min="0" max="10" style="width: 50px;"></div>
+                            <div>普贤品: <input type="number" id="editPuxian" value="${record.puxian || 0}" min="0" max="10" style="width: 50px;"></div>
+                            <div>地藏经: <input type="number" id="editDizang" value="${record.dizang || 0}" min="0" max="10" style="width: 50px;"></div>
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group-compact">
                         <label>备注</label>
-                        <textarea id="editRemark" rows="3" style="width: 100%;">${record.remark || ''}</textarea>
+                        <textarea id="editRemark" rows="2" style="width: 100%; font-size: 13px;">${record.remark || ''}</textarea>
                     </div>
                     
-                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <div style="display: flex; gap: 8px; margin-top: 15px;">
                         <button type="button" onclick="submitEdit()" class="btn-success">保存修改</button>
                         <button type="button" onclick="closeModal()" class="btn-secondary">取消</button>
                     </div>
@@ -1137,7 +1230,7 @@
             }
         }
         
-        // 导出数据函数保持不变...
+        // 导出数据
         function exportData() {
             const exportDiv = document.querySelector('.export-options');
             exportDiv.style.display = exportDiv.style.display === 'none' ? 'block' : 'none';
