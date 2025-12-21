@@ -568,26 +568,29 @@
         }
         
         // 排序记录
-        function sortRecords(sortBy) {
-            switch(sortBy) {
-                case 'createdAt_desc':
-                    currentRecords.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    break;
-                case 'date_desc':
-                    currentRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
-                    break;
-                case 'name_asc':
-                    currentRecords.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                case 'totalClassics_desc':
-                    currentRecords.sort((a, b) => {
-                        const totalA = (a.diamond || 0) + (a.amitabha || 0) + (a.guanyin || 0) + (a.puxian || 0) + (a.dizang || 0);
-                        const totalB = (b.diamond || 0) + (b.amitabha || 0) + (b.guanyin || 0) + (b.puxian || 0) + (b.dizang || 0);
-                        return totalB - totalA;
-                    });
-                    break;
-            }
-        }
+		function sortRecords(sortBy) {
+			switch(sortBy) {
+				case 'createdAt_desc':
+					currentRecords.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+					break;
+				case 'date_desc':
+					currentRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
+					break;
+				case 'name_asc':
+					currentRecords.sort((a, b) => a.name.localeCompare(b.name));
+					break;
+				case 'totalClassics_desc':
+					currentRecords.sort((a, b) => {
+						// 修复：计算经典总数时包含药师经
+						const totalA = (a.diamond || 0) + (a.amitabha || 0) + (a.guanyin || 0) + 
+									  (a.puxian || 0) + (a.dizang || 0) + (a.yaoshi || 0);
+						const totalB = (b.diamond || 0) + (b.amitabha || 0) + (b.guanyin || 0) + 
+									  (b.puxian || 0) + (b.dizang || 0) + (b.yaoshi || 0);
+						return totalB - totalA;
+					});
+					break;
+			}
+		}
         
         // 显示记录
         function displayRecords() {
@@ -603,125 +606,127 @@
         }
         
         // 显示表格视图
-        function displayTableView(records) {
-            const tbody = document.getElementById('dataTableBody');
-            
-            if (records.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="15" style="text-align: center; padding: 30px;">
-                            📭 暂无数据
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            let html = '';
-            
-            records.forEach(record => {
-                const totalClassics = (record.diamond || 0) + (record.amitabha || 0) + (record.guanyin || 0) + 
-                                     (record.puxian || 0) + (record.dizang || 0);
-                
-                const isSelected = selectedRecords.has(record._id);
-                
-                html += `
-                    <tr data-id="${record._id}" class="${isSelected ? 'selected' : ''}">
-                        <td>
-                            <input type="checkbox" class="record-checkbox" 
-                                   data-id="${record._id}" 
-                                   ${isSelected ? 'checked' : ''}
-                                   onchange="toggleSelection('${record._id}')">
-                            <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 4px 6px; font-size: 11px;">✏️</button>
-                            <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 4px 6px; font-size: 11px;">🗑️</button>
-                        </td>
-                        <td>${record.date}</td>
-                        <td>${record.name}</td>
-                        <td>${record.nineWord || 0}</td>
-                        <td>${record.buddhaWorship || 0}</td>
-                        <td>${record.quietZen || 0}</td>
-                        <td>${record.activeZen || 0}</td>
-                        <td>${record.diamond || 0}</td>
-                        <td>${record.amitabha || 0}</td>
-                        <td>${record.guanyin || 0}</td>
-                        <td>${record.puxian || 0}</td>
-                        <td>${record.dizang || 0}</td>
-						<td>${record.yaoshi || 0}</td> <!-- 新增药师经列 -->
-                        <td><strong>${totalClassics}</strong></td>
-                        <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${record.remark || ''}</td>
-                        <td>${formatDateTime(record.submitTime)}</td>
-                    </tr>
-                `;
-            });
-            
-            tbody.innerHTML = html;
+ {
+        const tbody = document.getElementById('dataTableBody');
+        
+        if (records.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="16" style="text-align: center; padding: 30px;">
+                        📭 暂无数据
+                    </td>
+                </tr>
+            `;
+            return;
         }
         
-        // 显示卡片视图
-        function displayCardsView(records) {
-            const container = document.getElementById('cardsView');
+        let html = '';
+        
+        records.forEach(record => {
+            // 修复：计算经典总数时包含药师经
+            const totalClassics = (record.diamond || 0) + (record.amitabha || 0) + (record.guanyin || 0) + 
+                                 (record.puxian || 0) + (record.dizang || 0) + (record.yaoshi || 0);
             
-            if (records.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 30px; color: #7f8c8d;">
-                        📭 暂无数据
-                    </div>
-                `;
-                return;
-            }
+            const isSelected = selectedRecords.has(record._id);
             
-            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">';
-            
-            records.forEach(record => {
-                const totalClassics = (record.diamond || 0) + (record.amitabha || 0) + (record.guanyin || 0) + 
-                                     (record.puxian || 0) + (record.dizang || 0);
-                
-                html += `
-                    <div class="combined-controls" style="padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" data-id="${record._id}">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <h3 style="color: #2c3e50; font-size: 16px;">${record.name}</h3>
-                            <input type="checkbox" class="record-checkbox" 
-                                   data-id="${record._id}" 
-                                   onchange="toggleSelection('${record._id}')">
-                        </div>
-                        <div style="color: #7f8c8d; margin-bottom: 8px; font-size: 12px;">${record.date}</div>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; font-size: 12px;">
-                            <div>九字禅: <strong>${record.nineWord || 0}</strong></div>
-                            <div>拜忏文: <strong>${record.buddhaWorship || 0}</strong></div>
-                            <div>静禅: <strong>${record.quietZen || 0}分</strong></div>
-                            <div>动禅: <strong>${record.activeZen || 0}分</strong></div>
-                        </div>
-                        
-                        <div style="background: #f8f9fa; padding: 8px; border-radius: 5px; margin-bottom: 12px; font-size: 12px;">
-                            <div style="font-weight: bold; margin-bottom: 5px;">经典诵读:</div>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
-                                <div>金刚经: ${record.diamond || 0}</div>
-                                <div>阿弥陀经: ${record.amitabha || 0}</div>
-                                <div>普门品: ${record.guanyin || 0}</div>
-                                <div>普贤品: ${record.puxian || 0}</div>
-                                <div>地藏经: ${record.dizang || 0}</div>
-								<div>药师经: ${record.yaoshi || 0}</div>									
-                                <div><strong>总计: ${totalClassics}</strong></div>
-                            </div>
-                        </div>
-                        
-                        ${record.remark ? `<div style="font-style: italic; color: #666; font-size: 12px; margin-bottom: 8px;">${record.remark}</div>` : ''}
-                        
-                        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 11px; color: #95a5a6;">
-                            <div>${formatDateTime(record.submitTime)}</div>
-                            <div>
-                                <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 3px 6px; font-size: 10px;">编辑</button>
-                                <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 3px 6px; font-size: 10px;">删除</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            container.innerHTML = html;
+            html += `
+                <tr data-id="${record._id}" class="${isSelected ? 'selected' : ''}">
+                    <td>
+                        <input type="checkbox" class="record-checkbox" 
+                               data-id="${record._id}" 
+                               ${isSelected ? 'checked' : ''}
+                               onchange="toggleSelection('${record._id}')">
+                        <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 4px 6px; font-size: 11px;">✏️</button>
+                        <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 4px 6px; font-size: 11px;">🗑️</button>
+                    </td>
+                    <td>${record.date}</td>
+                    <td>${record.name}</td>
+                    <td>${record.nineWord || 0}</td>
+                    <td>${record.buddhaWorship || 0}</td>
+                    <td>${record.quietZen || 0}</td>
+                    <td>${record.activeZen || 0}</td>
+                    <td>${record.diamond || 0}</td>
+                    <td>${record.amitabha || 0}</td>
+                    <td>${record.guanyin || 0}</td>
+                    <td>${record.puxian || 0}</td>
+                    <td>${record.dizang || 0}</td>
+                    <td>${record.yaoshi || 0}</td> <!-- 新增药师经列 -->
+                    <td><strong>${totalClassics}</strong></td>
+                    <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${record.remark || ''}</td>
+                    <td>${formatDateTime(record.submitTime)}</td>
+                </tr>
+            `;
+        });
+        
+        tbody.innerHTML = html;
+    }
+        
+    // 显示卡片视图 - 修复经典总数计算
+    function displayCardsView(records) {
+        const container = document.getElementById('cardsView');
+        
+        if (records.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 30px; color: #7f8c8d;">
+                    📭 暂无数据
+                </div>
+            `;
+            return;
         }
+        
+        let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">';
+        
+        records.forEach(record => {
+            // 修复：计算经典总数时包含药师经
+            const totalClassics = (record.diamond || 0) + (record.amitabha || 0) + (record.guanyin || 0) + 
+                                 (record.puxian || 0) + (record.dizang || 0) + (record.yaoshi || 0);
+            
+            html += `
+                <div class="combined-controls" style="padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" data-id="${record._id}">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="color: #2c3e50; font-size: 16px;">${record.name}</h3>
+                        <input type="checkbox" class="record-checkbox" 
+                               data-id="${record._id}" 
+                               onchange="toggleSelection('${record._id}')">
+                    </div>
+                    <div style="color: #7f8c8d; margin-bottom: 8px; font-size: 12px;">${record.date}</div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; font-size: 12px;">
+                        <div>九字禅: <strong>${record.nineWord || 0}</strong></div>
+                        <div>拜忏文: <strong>${record.buddhaWorship || 0}</strong></div>
+                        <div>静禅: <strong>${record.quietZen || 0}分</strong></div>
+                        <div>动禅: <strong>${record.activeZen || 0}分</strong></div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 8px; border-radius: 5px; margin-bottom: 12px; font-size: 12px;">
+                        <div style="font-weight: bold; margin-bottom: 5px;">经典诵读:</div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+                            <div>金刚经: ${record.diamond || 0}</div>
+                            <div>阿弥陀经: ${record.amitabha || 0}</div>
+                            <div>普门品: ${record.guanyin || 0}</div>
+                            <div>普贤品: ${record.puxian || 0}</div>
+                            <div>地藏经: ${record.dizang || 0}</div>
+                            <div>药师经: ${record.yaoshi || 0}</div>
+                            <div><strong>总计: ${totalClassics}</strong></div>
+                        </div>
+                    </div>
+                    
+                    ${record.remark ? `<div style="font-style: italic; color: #666; font-size: 12px; margin-bottom: 8px;">${record.remark}</div>` : ''}
+                    
+                    <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 11px; color: #95a5a6;">
+                        <div>${formatDateTime(record.submitTime)}</div>
+                        <div>
+                            <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 3px 6px; font-size: 10px;">编辑</button>
+                            <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 3px 6px; font-size: 10px;">删除</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
         
         // 更新分页
         function updatePagination() {
