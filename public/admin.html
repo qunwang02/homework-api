@@ -267,6 +267,162 @@
         .data-table tr:hover { background: #e3f2fd; }
         .data-table tr.selected { background: #fff3cd !important; }
         
+        /* 卡片视图按钮 - 特别增大 */
+        .card-action-btn {
+            padding: 8px 12px !important;
+            font-size: 13px !important;
+            margin: 0 2px;
+            min-width: 60px;
+            height: 36px;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .card-action-btn i {
+            font-size: 12px;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .card.selected {
+            background: #fff9e6;
+            border-color: #ffcc00;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-name {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 600;
+        }
+        
+        .card-date {
+            color: #6c757d;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        
+        .card-checkbox {
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+        
+        .card-content {
+            flex: 1;
+        }
+        
+        .card-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .card-item {
+            font-size: 13px;
+        }
+        
+        .card-label {
+            color: #6c757d;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+        
+        .card-value {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        
+        .card-section {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .card-section-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #495057;
+        }
+        
+        .card-section-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            font-size: 12px;
+        }
+        
+        .card-section-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-total {
+            color: #3498db;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .card-remark {
+            font-style: italic;
+            color: #6c757d;
+            font-size: 12px;
+            margin-bottom: 12px;
+            padding: 6px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .card-submit-time {
+            color: #adb5bd;
+            font-size: 11px;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
         /* 分页 */
         .pagination { 
             display: flex; 
@@ -306,6 +462,33 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+        
+        /* 统计卡片 */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: bold;
         }
         
         /* 模态框 */
@@ -371,48 +554,6 @@
             color: #000; 
         }
         
-        /* 卡片视图 */
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-        }
-        
-        /* 统计卡片 */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .stat-card h3 {
-            font-size: 14px;
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-        
-        .stat-card .value {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
         /* 响应式调整 */
         @media (max-width: 992px) {
             .quick-date-group {
@@ -453,6 +594,14 @@
                 margin: 10% auto;
                 padding: 20px;
             }
+            
+            /* 移动端卡片按钮更大 */
+            .card-action-btn {
+                padding: 10px 15px !important;
+                font-size: 14px !important;
+                min-width: 70px;
+                height: 40px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -476,6 +625,17 @@
             
             .stats-container {
                 grid-template-columns: 1fr;
+            }
+            
+            /* 移动端卡片布局调整 */
+            .card-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .card-action-btn {
+                width: 100%;
+                margin: 2px 0;
             }
         }
     </style>
@@ -998,7 +1158,7 @@
             tbody.innerHTML = html;
         }
         
-        // 显示卡片视图
+        // 显示卡片视图 - 修改后的版本，按钮更大更清晰
         function displayCardsView(records) {
             const container = document.getElementById('cardsView');
             
@@ -1012,69 +1172,88 @@
                 return;
             }
             
-            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">';
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">';
             
             records.forEach(record => {
                 const isSelected = selectedRecords.has(record._id);
                 
                 html += `
                     <div class="card ${isSelected ? 'selected' : ''}" data-id="${record._id}">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div class="card-header">
                             <div>
-                                <h3 style="color: #2c3e50; margin: 0; font-size: 16px;">${record.name}</h3>
-                                <div style="color: #6c757d; font-size: 12px;">${record.date}</div>
+                                <h3 class="card-name">${record.name}</h3>
+                                <div class="card-date">${record.date}</div>
                             </div>
-                            <input type="checkbox" class="record-checkbox" 
+                            <input type="checkbox" class="card-checkbox" 
                                    data-id="${record._id}" 
                                    ${isSelected ? 'checked' : ''}
-                                   onchange="toggleSelection('${record._id}')"
-                                   style="transform: scale(1.2);">
+                                   onchange="toggleSelection('${record._id}')">
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;">
-                            <div style="font-size: 12px;">
-                                <div style="color: #6c757d;">九字禅</div>
-                                <strong>${record.nineWord || 0}</strong>
+                        <div class="card-content">
+                            <div class="card-row">
+                                <div class="card-item">
+                                    <div class="card-label">九字禅</div>
+                                    <div class="card-value">${record.nineWord || 0} 声</div>
+                                </div>
+                                <div class="card-item">
+                                    <div class="card-label">拜忏文</div>
+                                    <div class="card-value">${record.buddhaWorship || 0} 遍</div>
+                                </div>
+                                <div class="card-item">
+                                    <div class="card-label">静禅</div>
+                                    <div class="card-value">${record.quietZen || 0} 分钟</div>
+                                </div>
+                                <div class="card-item">
+                                    <div class="card-label">动禅</div>
+                                    <div class="card-value">${record.activeZen || 0} 分钟</div>
+                                </div>
                             </div>
-                            <div style="font-size: 12px;">
-                                <div style="color: #6c757d;">拜忏文</div>
-                                <strong>${record.buddhaWorship || 0}</strong>
+                            
+                            <div class="card-section">
+                                <div class="card-section-title">经典诵读 (遍)</div>
+                                <div class="card-section-content">
+                                    <div class="card-section-item">
+                                        <span>金刚经</span>
+                                        <strong>${record.diamond || 0}</strong>
+                                    </div>
+                                    <div class="card-section-item">
+                                        <span>阿弥陀经</span>
+                                        <strong>${record.amitabha || 0}</strong>
+                                    </div>
+                                    <div class="card-section-item">
+                                        <span>普门品</span>
+                                        <strong>${record.guanyin || 0}</strong>
+                                    </div>
+                                    <div class="card-section-item">
+                                        <span>普贤品</span>
+                                        <strong>${record.puxian || 0}</strong>
+                                    </div>
+                                    <div class="card-section-item">
+                                        <span>地藏经</span>
+                                        <strong>${record.dizang || 0}</strong>
+                                    </div>
+                                    <div class="card-section-item">
+                                        <span class="card-total">总计</span>
+                                        <strong class="card-total">${record.totalClassics}</strong>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="font-size: 12px;">
-                                <div style="color: #6c757d;">静禅</div>
-                                <strong>${record.quietZen || 0}分</strong>
-                            </div>
-                            <div style="font-size: 12px;">
-                                <div style="color: #6c757d;">动禅</div>
-                                <strong>${record.activeZen || 0}分</strong>
-                            </div>
+                            
+                            ${record.remark ? `
+                                <div class="card-remark">
+                                    <strong>备注：</strong>${record.remark}
+                                </div>` : ''}
                         </div>
                         
-                        <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                            <div style="font-weight: 600; margin-bottom: 5px; font-size: 12px; color: #495057;">经典诵读</div>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; font-size: 11px;">
-                                <div>金刚经: ${record.diamond || 0}</div>
-                                <div>阿弥陀经: ${record.amitabha || 0}</div>
-                                <div>普门品: ${record.guanyin || 0}</div>
-                                <div>普贤品: ${record.puxian || 0}</div>
-                                <div>地藏经: ${record.dizang || 0}</div>
-                                <div style="color: #3498db; font-weight: bold;">总计: ${record.totalClassics}</div>
-                            </div>
-                        </div>
-                        
-                        ${record.remark ? `
-                            <div style="font-style: italic; color: #6c757d; font-size: 11px; margin-bottom: 10px; padding: 5px; background: #f8f9fa; border-radius: 3px;">
-                                ${record.remark}
-                            </div>` : ''}
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 11px; color: #adb5bd;">
-                            <div>${formatDateTime(record.submitTime)}</div>
-                            <div>
-                                <button onclick="editRecord('${record._id}')" class="btn-warning" style="padding: 4px 8px; font-size: 11px;">
-                                    <i class="fas fa-edit"></i>
+                        <div class="card-footer">
+                            <div class="card-submit-time">${formatDateTime(record.submitTime)}</div>
+                            <div class="card-actions">
+                                <button onclick="editRecord('${record._id}')" class="btn-warning card-action-btn">
+                                    <i class="fas fa-edit"></i> 编辑
                                 </button>
-                                <button onclick="deleteRecord('${record._id}')" class="btn-danger" style="padding: 4px 8px; font-size: 11px;">
-                                    <i class="fas fa-trash"></i>
+                                <button onclick="deleteRecord('${record._id}')" class="btn-danger card-action-btn">
+                                    <i class="fas fa-trash"></i> 删除
                                 </button>
                             </div>
                         </div>
@@ -1221,7 +1400,7 @@
                 selectedRecords.add(record._id);
             });
             
-            document.querySelectorAll('.record-checkbox').forEach(checkbox => {
+            document.querySelectorAll('.record-checkbox, .card-checkbox').forEach(checkbox => {
                 checkbox.checked = true;
             });
             
@@ -1232,7 +1411,7 @@
         function deselectAll() {
             selectedRecords.clear();
             
-            document.querySelectorAll('.record-checkbox').forEach(checkbox => {
+            document.querySelectorAll('.record-checkbox, .card-checkbox').forEach(checkbox => {
                 checkbox.checked = false;
             });
             
