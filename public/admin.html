@@ -317,6 +317,7 @@
                                 <th>普门品</th>
                                 <th>普贤品</th>
                                 <th>地藏经</th>
+								<th>药师经</th> <!-- 新增列 -->								
                                 <th>经典总数</th>
                                 <th>备注</th>
                                 <th>提交时间</th>
@@ -645,6 +646,7 @@
                         <td>${record.guanyin || 0}</td>
                         <td>${record.puxian || 0}</td>
                         <td>${record.dizang || 0}</td>
+						<td>${record.yaoshi || 0}</td> <!-- 新增药师经列 -->
                         <td><strong>${totalClassics}</strong></td>
                         <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${record.remark || ''}</td>
                         <td>${formatDateTime(record.submitTime)}</td>
@@ -699,6 +701,7 @@
                                 <div>普门品: ${record.guanyin || 0}</div>
                                 <div>普贤品: ${record.puxian || 0}</div>
                                 <div>地藏经: ${record.dizang || 0}</div>
+								<div>药师经: ${record.yaoshi || 0}</div>									
                                 <div><strong>总计: ${totalClassics}</strong></div>
                             </div>
                         </div>
@@ -956,6 +959,7 @@
                             <div>普门品: <input type="number" id="editGuanyin" value="${record.guanyin || 0}" min="0" max="10" style="width: 50px;"></div>
                             <div>普贤品: <input type="number" id="editPuxian" value="${record.puxian || 0}" min="0" max="10" style="width: 50px;"></div>
                             <div>地藏经: <input type="number" id="editDizang" value="${record.dizang || 0}" min="0" max="10" style="width: 50px;"></div>
+                            <div>药师经: <input type="number" id="editYaoshi" value="${record.yaoshi || 0}" min="0" max="10" style="width: 50px;"></div>							
                         </div>
                     </div>
                     
@@ -989,6 +993,7 @@
                 guanyin: parseInt(document.getElementById('editGuanyin').value) || 0,
                 puxian: parseInt(document.getElementById('editPuxian').value) || 0,
                 dizang: parseInt(document.getElementById('editDizang').value) || 0,
+				yaoshi: parseInt(document.getElementById('editYaoshi').value) || 0, // 新增药师佛经
                 remark: document.getElementById('editRemark').value,
             };
             
@@ -1031,12 +1036,13 @@
                 return;
             }
             
-            let csv = '日期,姓名,九字禅(声),拜忏文(遍),静禅(分钟),动禅(分钟),金刚经,阿弥陀经,普门品,普贤品,地藏经,经典总数,备注,提交时间\n';
+            let csv = '日期,姓名,九字禅(声),拜忏文(遍),静禅(分钟),动禅(分钟),金刚经,阿弥陀经,普门品,普贤品,地藏经,药师经,经典总数,备注,提交时间\n';
             
             allRecords.forEach(record => {
+                // 计算经典总数（包含药师佛经）
                 const total = (record.diamond || 0) + (record.amitabha || 0) + (record.guanyin || 0) + 
-                             (record.puxian || 0) + (record.dizang || 0);
-                csv += `${record.date},${record.name},${record.nineWord || 0},${record.buddhaWorship || 0},${record.quietZen || 0},${record.activeZen || 0},${record.diamond || 0},${record.amitabha || 0},${record.guanyin || 0},${record.puxian || 0},${record.dizang || 0},${total},"${record.remark || ''}",${record.submitTime}\n`;
+                             (record.puxian || 0) + (record.dizang || 0) + (record.yaoshi || 0);
+                csv += `${record.date},${record.name},${record.nineWord || 0},${record.buddhaWorship || 0},${record.quietZen || 0},${record.activeZen || 0},${record.diamond || 0},${record.amitabha || 0},${record.guanyin || 0},${record.puxian || 0},${record.dizang || 0},${record.yaoshi || 0},${total},"${record.remark || ''}",${record.submitTime}\n`;
             });
             
             downloadFile(csv, '功课记录.csv', 'text/csv');
