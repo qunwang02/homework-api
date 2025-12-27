@@ -279,34 +279,8 @@
     </div>
 
     <script>
-   //  BASE_URL= "https://hm.fosheng.qzz.io.vercel.app/i"i      // 替换原来的 API_BASconst getApiBaseUrl 
-  const host = window.location.host;
-  
-  // 开发环境
-  if (host.includes('localhost')) {
-    return 'http://localhost:3000/api';
-  }
-  
-  // Vercel 部署环境
-  if (host.includes('vercel.app') || host.includes('qzz.io.vercel.app')) {
-    // 方案A：使用相对路径（推荐）
-    return '/api';
-    // 方案B：使用完整路径但不同端点
-    // return window.location.origin + '/api/mongo';
-  }
-  
-  // Render 或其他环境
-  return window.location.origin + '/api';
-};
-
-// 使用时
-const API_BASE_URL = getApiBaseUrl();
-
-
-
-
-
-        
+   //   const API_BASE_URL= "https://hm.fosheng.qzz.io.vercel.app/api/mongo"      // 替换原来的 API_BASconst getApiBaseUrl 
+         
       //  const API_BASE_URL = window.location.origin.includes('localhost') 
       //      ? 'http://localhost:3000/api' 
        //     : window.location.origin + '/api';
